@@ -8,18 +8,18 @@
 <body>
     <h1>나만의 기준금리 구하기</h1>
 
-    <a> 당신의 나이는? </a> <input id="age" style="text-align: right;" /> 세 <br>
-    <a> 당신의 연 수입은? </a> <input id="income" style="text-align: right;"/> 만원 <br>
-    <a> 당신의 연 투자 가능 금액은? </a> <input id='investment' style="text-align: right;"/> 만원 <br>
-    <a> 당신의 자본은? </a> <input id="capital" style="text-align: right;"/> 억원 <br>
+    <a> 당신의 나이는? </a> <input id="age" style="text-align: right;" value="40"/> 세 <br>
+    <a> 당신의 연 수입은? </a> <input id="income" style="text-align: right;"    value="6000"/> 만원 <br>
+    <a> 당신의 연 투자 가능 금액은? </a> <input id='investment' style="text-align: right;" value="3000"/> 만원 <br>
+    <a> 당신의 자본은? </a> <input id="capital" style="text-align: right;" value="5"/> 억원 <br>
     
     <br>
-    <a> 감당할 수 있는 레버리지 비율은? </a> <input id='leverage' style="text-align: right;"/> % <br>
-    <a> 신용에 따른 이자율은? </a> <input id='interate' style="text-align: right;"/> % <br>
+    <a> 감당할 수 있는 레버리지 비율은? </a> <input id='leverage' style="text-align: right;" value="70.0"/> % <br>
+    <a> 신용에 따른 이자율은? </a> <input id='interate' style="text-align: right;" value="3.5"/> % <br>
 
     <br>
-    <a> 은퇴하고 싶은 나이는? </a> <input id='age_fired' style="text-align: right;"/> 세 <br>
-    <a> 은퇴 시 목표하는 현금흐름은? </a> <input id='cashflow' style="text-align: right;"/> 만원 <br>
+    <a> 은퇴하고 싶은 나이는? </a> <input id='age_fired' style="text-align: right;" value="50"/> 세 <br>
+    <a> 은퇴 시 목표하는 현금흐름은? </a> <input id='cashflow' style="text-align: right;" value="1000"/> 만원 <br>
 
     <br>
     <div>( 기본 가정 : 연평균 화폐가치 하락 2.5% / 보유비용 0.5% / 소득세율 20%)</div>
@@ -49,7 +49,66 @@
             const age_fired = Number(document.getElementById('age_fired').value);
             const cashflow = Number(document.getElementById('cashflow').value);
 
-            console.log(age+income);
+            var duration = age_fired - age;
+            var cost_of_carry = 0.005;
+            var income_tex_rate = 0.2;
+            var inflation = 0.025;
+
+
+
+            for (var i=1; i<1000; i++) {
+
+                income_j = income;
+                investment_j = investment;
+                asset_income_j =0;
+                leverage_cost_j =0; 
+                holding_cost_j =0;
+                income_tex_j =0;
+                asset_cash_flow_j =0;
+                monthly_cash_flow_j =0;
+                net_cash_flow_j = investment;
+                net_investment_j = capital*10000 + net_cash_flow_j;
+                purchased_asset_j = net_investment_j/(1-leverage/100);
+                leverage_j = purchased_asset_j - net_investment_j;
+                sum_asset_j = purchased_asset_j;
+                sum_investment_j = net_investment_j;
+                sum_leverage_j = leverage_j;
+
+                for (var j=1; j<duration+1; j++) {
+                    income_j = income * Math.pow((1+inflation),j);
+                    investment_j = investment * Math.pow((1+inflation),j);
+                    asset_income_j = sum_asset_j * i/1000;
+                    leverage_cost_j = sum_leverage_j * interate/100
+                    holding_cost_j = sum_asset_j * cost_of_carry
+                    income_tex_j = (asset_income_j - leverage_cost_j - holding_cost_j) * income_tex_rate ;
+                    
+                    asset_growth = sum_asset_j * inflation;
+                    leverage_growth = sum_leverage_j * inflation;
+
+                    asset_cash_flow_j = asset_income_j - leverage_cost_j - holding_cost_j - income_tex_j + leverage_growth;
+                    monthly_cash_flow_j = asset_cash_flow_j / 12;
+                    net_cash_flow_j = asset_cash_flow_j + investment_j;
+                 
+                    net_investment_j = net_cash_flow_j;
+                    purchased_asset_j = net_investment_j/(1-leverage/100);
+                    leverage_j = purchased_asset_j - net_investment_j;
+
+                    sum_asset_j = sum_asset_j + asset_growth + purchased_asset_j;
+                    sum_investment_j = sum_investment_j + net_investment_j;
+                    sum_leverage_j = sum_leverage_j + leverage_growth + leverage_j;
+
+                }
+                
+                if (monthly_cash_flow_j > cashflow) {
+                    myinterate = i;
+                    break;
+                }
+
+            }
+            
+            ROA = myinterate/10;
+            ROI = Math.round((ROA - leverage/100 * interate/100)/(1-leverage/100)*10)/10;
+
 
             // myincome = Number(income);
             // document.getElementById("result").innerText = name;
@@ -62,8 +121,8 @@
             //        }
             //    }
         
-        $("#result").append("<h3> 나의 연소득 "+20+" 만원은, 2019년 우리나라 소득 통계에 따르면</h3>");        
-        $("#result").append("<h3> 상위 "+0.05*100+" % 에 해당합니다.</h3>");        
+        $("#result").append("<h3> 내가 목표로 해야하는 자산 대비 수익률 (ROA)는 "+ ROA +" % 입니다. </h3>");        
+        $("#result").append("<h3> 나의 기준금리 (투자금 대비 수익률, ROI) 는 "+ ROI +" % 입니다.</h3>");        
 
         }
     </script>
