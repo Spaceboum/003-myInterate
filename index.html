@@ -14,6 +14,7 @@
             display: inline-block;
             width: 250px;
             margin-top: 5px;
+
         }
         span.answer {
             font-size: 0.5rem;
@@ -27,8 +28,8 @@
             font-size: 0.85rem;
         }
         h2 {
+            margin-left: 10px;
             width: 100%;
-            text-align: center;
             margin-bottom: 30px;
         }
         h3 {
@@ -43,9 +44,9 @@
         button {
             background-color: #58504e;
             border: none;
-            height: 40px;
+            height: 35px;
             color: white;
-            padding: 5px 40px;
+            padding: 5px 25px;
             text-align: left;
             font-size: 16px;
             opacity: 0.6;
@@ -98,8 +99,10 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
  
     <script>
-
+        
         function printName()  {
+            $('#result *').remove();
+
             const age = Number(document.getElementById('age').value);
             const income = Number(document.getElementById('income').value);
             const investment = Number(document.getElementById('investment').value);
