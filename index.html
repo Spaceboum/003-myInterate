@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 기준금리 구하기</title>
+</head>
+<body>
+    <h1>나만의 기준금리 구하기</h1>
+
+    <a> 당신의 나이는? </a> <input id="age" style="text-align: right;" /> 세 <br>
+    <a> 당신의 연 수입은? </a> <input id="income" style="text-align: right;"/> 만원 <br>
+    <a> 당신의 연 투자 가능 금액은? </a> <input id='investment' style="text-align: right;"/> 만원 <br>
+    <a> 당신의 자본은? </a> <input id="capital" style="text-align: right;"/> 억원 <br>
+    
+    <br>
+    <a> 감당할 수 있는 레버리지 비율은? </a> <input id='leverage' style="text-align: right;"/> % <br>
+    <a> 신용에 따른 이자율은? </a> <input id='interate' style="text-align: right;"/> % <br>
+
+    <br>
+    <a> 은퇴하고 싶은 나이는? </a> <input id='age_fired' style="text-align: right;"/> 세 <br>
+    <a> 은퇴 시 목표하는 현금흐름은? </a> <input id='cashflow' style="text-align: right;"/> 만원 <br>
+
+    <br>
+    <div>( 기본 가정 : 연평균 화폐가치 하락 2.5% / 보유비용 0.5% / 소득세율 20%)</div>
+    <br>
+    <button onclick="printName()">기준금리 구하기</button>
+    <br>
+    <div id='result'></div>
+    <br>
+    <a href = "https://blog.naver.com/2020_lk">스페이스봄 바로가기</a>
+    <div class="csv"></div>
+
+
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+ 
+    <script>
+
+        function printName()  {
+            const age = Number(document.getElementById('age').value);
+            const income = Number(document.getElementById('income').value);
+            const investment = Number(document.getElementById('investment').value);
+            const capital = Number(document.getElementById('capital').value);
+            const leverage = Number(document.getElementById('leverage').value);
+            const interate = Number(document.getElementById('interate').value);
+            const age_fired = Number(document.getElementById('age_fired').value);
+            const cashflow = Number(document.getElementById('cashflow').value);
+
+            console.log(age+income);
+
+            // myincome = Number(income);
+            // document.getElementById("result").innerText = name;
+            //for (var i=0; i<18400; i++ ) {
+            //        var inc = incomedata[i].total;
+            //       
+            //        if ( inc < myincome ) {
+            //           brnum = i;
+            //            break;
+            //        }
+            //    }
+        
+        $("#result").append("<h3> 나의 연소득 "+20+" 만원은, 2019년 우리나라 소득 통계에 따르면</h3>");        
+        $("#result").append("<h3> 상위 "+0.05*100+" % 에 해당합니다.</h3>");        
+
+        }
+    </script>
+    
+
+</body>
+</html>
