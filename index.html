@@ -5,35 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>나만의 기준금리 구하기</title>
 </head>
+
 <body>
     <h1>나만의 기준금리 구하기</h1>
+    <ul>
+        <li> 당신의 나이는?  <input id="age" style="text-align: right;" value="40"/> 세 </li> <br>
+        <li> 당신의 연 수입은? <input id="income" style="text-align: right;"    value="6000"/> 만원 </li> <br>
+        <li> 당신의 연 투자 가능 금액은? <input id='investment' style="text-align: right;" value="3000"/> 만원 </li><br>
+        <li> 당신의 자본은? <input id="capital" style="text-align: right;" value="5"/> 억원 </li><br>
+        
+        <br>
+        <li> 감당할 수 있는 레버리지 비율은? <input id='leverage' style="text-align: right;" value="70.0"/> % </li><br>
+        <li> 신용에 따른 이자율은? <input id='interate' style="text-align: right;" value="3.5"/> % </li><br>
 
-    <a> 당신의 나이는? </a> <input id="age" style="text-align: right;" value="40"/> 세 <br>
-    <a> 당신의 연 수입은? </a> <input id="income" style="text-align: right;"    value="6000"/> 만원 <br>
-    <a> 당신의 연 투자 가능 금액은? </a> <input id='investment' style="text-align: right;" value="3000"/> 만원 <br>
-    <a> 당신의 자본은? </a> <input id="capital" style="text-align: right;" value="5"/> 억원 <br>
+        <br>
+        <li> 은퇴하고 싶은 나이는? <input id='age_fired' style="text-align: right;" value="50"/> 세 </li><br>
+        <li> 은퇴 시 목표하는 현금흐름은? input id='cashflow' style="text-align: right;" value="1000"/> 만원 </li><br>
+
+        <br>
+        <div>( 기본 가정 : 연평균 화폐가치 하락 2.5% / 보유비용 0.5% / 소득세율 20%)</div>
+        <br>
+        <button onclick="printName()">기준금리 구하기</button>
+    </ul>
     
-    <br>
-    <a> 감당할 수 있는 레버리지 비율은? </a> <input id='leverage' style="text-align: right;" value="70.0"/> % <br>
-    <a> 신용에 따른 이자율은? </a> <input id='interate' style="text-align: right;" value="3.5"/> % <br>
-
-    <br>
-    <a> 은퇴하고 싶은 나이는? </a> <input id='age_fired' style="text-align: right;" value="50"/> 세 <br>
-    <a> 은퇴 시 목표하는 현금흐름은? </a> <input id='cashflow' style="text-align: right;" value="1000"/> 만원 <br>
-
-    <br>
-    <div>( 기본 가정 : 연평균 화폐가치 하락 2.5% / 보유비용 0.5% / 소득세율 20%)</div>
-    <br>
-    <button onclick="printName()">기준금리 구하기</button>
     <br>
     <div id='result'></div>
     <br>
     <a href = "https://blog.naver.com/2020_lk">스페이스봄 바로가기</a>
     <div class="csv"></div>
-
-
-
-    
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
  
@@ -53,8 +52,6 @@
             var cost_of_carry = 0.005;
             var income_tex_rate = 0.2;
             var inflation = 0.025;
-
-
 
             for (var i=1; i<1000; i++) {
 
@@ -96,37 +93,20 @@
                     sum_asset_j = sum_asset_j + asset_growth + purchased_asset_j;
                     sum_investment_j = sum_investment_j + net_investment_j;
                     sum_leverage_j = sum_leverage_j + leverage_growth + leverage_j;
-
                 }
-                
                 if (monthly_cash_flow_j > cashflow) {
                     myinterate = i;
                     break;
                 }
-
             }
             
             ROA = myinterate/10;
             ROI = Math.round((ROA - leverage/100 * interate/100)/(1-leverage/100)*10)/10;
 
-
-            // myincome = Number(income);
-            // document.getElementById("result").innerText = name;
-            //for (var i=0; i<18400; i++ ) {
-            //        var inc = incomedata[i].total;
-            //       
-            //        if ( inc < myincome ) {
-            //           brnum = i;
-            //            break;
-            //        }
-            //    }
-        
         $("#result").append("<h3> 내가 목표로 해야하는 자산 대비 수익률 (ROA)는 "+ ROA +" % 입니다. </h3>");        
         $("#result").append("<h3> 나의 기준금리 (투자금 대비 수익률, ROI) 는 "+ ROI +" % 입니다.</h3>");        
-
         }
     </script>
     
-
 </body>
 </html>
